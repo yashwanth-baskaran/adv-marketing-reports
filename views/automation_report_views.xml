@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_amr_campaign_report_list" model="ir.ui.view">
+        <field name="name">amr.campaign.report.list</field>
+        <field name="model">amr.campaign.report</field>
+        <field name="arch" type="xml">
+            <list string="Campaign Overview" create="false" edit="false" delete="false">
+                <field name="campaign_name"/>
+                <field name="state"
+                       decoration-success="state == 'running'"
+                       decoration-muted="state == 'draft'"
+                       decoration-danger="state == 'stopped'"/>
+                <field name="create_date"/>
+                <field name="last_sync_date"/>
+                <field name="total_participants"/>
+                <field name="active_participants"/>
+                <field name="completed_participants"/>
+                <field name="test_participants"/>
+                <field name="email_activities"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="delivery_rate" string="Delivery %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="reply_rate" string="Reply %"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_campaign_report_pivot" model="ir.ui.view">
+        <field name="name">amr.campaign.report.pivot</field>
+        <field name="model">amr.campaign.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Campaign Overview" disable_linking="True">
+                <field name="state" type="col"/>
+                <field name="campaign_name" type="row"/>
+                <field name="total_participants" type="measure"/>
+                <field name="active_participants" type="measure"/>
+                <field name="email_activities" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="delivery_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_campaign_report_graph" model="ir.ui.view">
+        <field name="name">amr.campaign.report.graph</field>
+        <field name="model">amr.campaign.report</field>
+        <field name="arch" type="xml">
+            <graph string="Campaign Overview" type="bar">
+                <field name="campaign_name" type="row"/>
+                <field name="total_participants" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="delivery_rate" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_campaign_report_search" model="ir.ui.view">
+        <field name="name">amr.campaign.report.search</field>
+        <field name="model">amr.campaign.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Campaign Overview">
+                <field name="campaign_name"/>
+                <filter string="Running" name="running" domain="[('state','=','running')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Stopped" name="stopped" domain="[('state','=','stopped')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_campaign_report" model="ir.actions.act_window">
+        <field name="name">Campaign Overview</field>
+        <field name="res_model">amr.campaign.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="view_amr_activity_report_list" model="ir.ui.view">
+        <field name="name">amr.activity.report.list</field>
+        <field name="model">amr.activity.report</field>
+        <field name="arch" type="xml">
+            <list string="Activity Stats" create="false" edit="false" delete="false">
+                <field name="campaign_id"/>
+                <field name="activity_name"/>
+                <field name="activity_type"/>
+                <field name="trigger_type"/>
+                <field name="interval_number"/>
+                <field name="interval_type"/>
+                <field name="sent"/>
+                <field name="opened"/>
+                <field name="clicked"/>
+                <field name="bounced"/>
+                <field name="replied"/>
+                <field name="processed"/>
+                <field name="rejected"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_activity_report_pivot" model="ir.ui.view">
+        <field name="name">amr.activity.report.pivot</field>
+        <field name="model">amr.activity.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Activity Stats" disable_linking="True">
+                <field name="trigger_type" type="row"/>
+                <field name="activity_type" type="col"/>
+                <field name="sent" type="measure"/>
+                <field name="opened" type="measure"/>
+                <field name="clicked" type="measure"/>
+                <field name="bounced" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_activity_report_graph" model="ir.ui.view">
+        <field name="name">amr.activity.report.graph</field>
+        <field name="model">amr.activity.report</field>
+        <field name="arch" type="xml">
+            <graph string="Activity Stats" type="bar">
+                <field name="trigger_type" type="row"/>
+                <field name="sent" type="measure"/>
+                <field name="opened" type="measure"/>
+                <field name="clicked" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_activity_report_search" model="ir.ui.view">
+        <field name="name">amr.activity.report.search</field>
+        <field name="model">amr.activity.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Activity Stats">
+                <field name="activity_name"/>
+                <field name="campaign_id"/>
+                <filter string="Email" name="email" domain="[('activity_type','=','email')]"/>
+                <filter string="Action" name="action" domain="[('activity_type','=','action')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Campaign" name="group_campaign" context="{'group_by': 'campaign_id'}"/>
+                    <filter string="Trigger Type" name="group_trigger" context="{'group_by': 'trigger_type'}"/>
+                    <filter string="Activity Type" name="group_type" context="{'group_by': 'activity_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_activity_report" model="ir.actions.act_window">
+        <field name="name">Activity Stats</field>
+        <field name="res_model">amr.activity.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="view_amr_participant_report_list" model="ir.ui.view">
+        <field name="name">amr.participant.report.list</field>
+        <field name="model">amr.participant.report</field>
+        <field name="arch" type="xml">
+            <list string="Participant Breakdown" create="false" edit="false" delete="false">
+                <field name="campaign_id"/>
+                <field name="state"
+                       decoration-success="state == 'running'"
+                       decoration-info="state == 'completed'"
+                       decoration-danger="state == 'removed'"/>
+                <field name="is_test"/>
+                <field name="create_date"/>
+                <field name="participant_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_participant_report_pivot" model="ir.ui.view">
+        <field name="name">amr.participant.report.pivot</field>
+        <field name="model">amr.participant.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Participant Breakdown" disable_linking="True">
+                <field name="campaign_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="participant_count" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_participant_report_graph" model="ir.ui.view">
+        <field name="name">amr.participant.report.graph</field>
+        <field name="model">amr.participant.report</field>
+        <field name="arch" type="xml">
+            <graph string="Participant Breakdown" type="pie">
+                <field name="state" type="row"/>
+                <field name="participant_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_participant_report_search" model="ir.ui.view">
+        <field name="name">amr.participant.report.search</field>
+        <field name="model">amr.participant.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Participants">
+                <field name="campaign_id"/>
+                <filter string="Running" name="running" domain="[('state','=','running')]"/>
+                <filter string="Completed" name="completed" domain="[('state','=','completed')]"/>
+                <filter string="Removed" name="removed" domain="[('state','=','removed')]"/>
+                <filter string="Exclude Test" name="no_test" domain="[('is_test','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Campaign" name="group_campaign" context="{'group_by': 'campaign_id'}"/>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_participant_report" model="ir.actions.act_window">
+        <field name="name">Participant Breakdown</field>
+        <field name="res_model">amr.participant.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>
