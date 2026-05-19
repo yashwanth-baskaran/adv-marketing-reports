@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_amr_mailing_report_list" model="ir.ui.view">
+        <field name="name">amr.mailing.report.list</field>
+        <field name="model">amr.mailing.report</field>
+        <field name="arch" type="xml">
+            <list string="Campaign Stats" create="false" edit="false" delete="false">
+                <field name="subject"/>
+                <field name="email_from"/>
+                <field name="mailing_type"/>
+                <field name="state" decoration-success="state == 'done'"
+                       decoration-warning="state == 'sending'"
+                       decoration-info="state == 'in_queue'"
+                       decoration-muted="state == 'draft'"/>
+                <field name="sent_date"/>
+                <field name="schedule_date"/>
+                <field name="total"/>
+                <field name="sent"/>
+                <field name="delivered"/>
+                <field name="opened"/>
+                <field name="clicked"/>
+                <field name="replied"/>
+                <field name="bounced"/>
+                <field name="failed"/>
+                <field name="canceled"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="delivery_rate" string="Delivery %"/>
+                <field name="reply_rate" string="Reply %"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_mailing_report_pivot" model="ir.ui.view">
+        <field name="name">amr.mailing.report.pivot</field>
+        <field name="model">amr.mailing.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Campaign Stats" disable_linking="True">
+                <field name="mailing_type" type="row"/>
+                <field name="state" type="col"/>
+                <field name="total" type="measure"/>
+                <field name="sent" type="measure"/>
+                <field name="opened" type="measure"/>
+                <field name="clicked" type="measure"/>
+                <field name="bounced" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="click_rate" type="measure"/>
+                <field name="delivery_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_mailing_report_graph" model="ir.ui.view">
+        <field name="name">amr.mailing.report.graph</field>
+        <field name="model">amr.mailing.report</field>
+        <field name="arch" type="xml">
+            <graph string="Campaign Stats" type="bar">
+                <field name="subject" type="row"/>
+                <field name="sent" type="measure"/>
+                <field name="opened" type="measure"/>
+                <field name="clicked" type="measure"/>
+                <field name="bounced" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_mailing_report_search" model="ir.ui.view">
+        <field name="name">amr.mailing.report.search</field>
+        <field name="model">amr.mailing.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Campaign Stats">
+                <field name="subject"/>
+                <field name="email_from"/>
+                <filter string="Sent" name="sent" domain="[('state','=','done')]"/>
+                <filter string="Sending" name="sending" domain="[('state','=','sending')]"/>
+                <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Sent Date" name="group_sent_date" context="{'group_by': 'sent_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_mailing_report" model="ir.actions.act_window">
+        <field name="name">Campaign Stats</field>
+        <field name="res_model">amr.mailing.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+    <record id="view_amr_mail_trace_report_list" model="ir.ui.view">
+        <field name="name">amr.mail.trace.report.list</field>
+        <field name="model">amr.mail.trace.report</field>
+        <field name="arch" type="xml">
+            <list string="Delivery Details" create="false" edit="false" delete="false">
+                <field name="mailing_id"/>
+                <field name="email"/>
+                <field name="trace_status"
+                       decoration-success="trace_status in ('open','reply','click')"
+                       decoration-danger="trace_status == 'bounce'"
+                       decoration-warning="trace_status == 'error'"
+                       decoration-muted="trace_status == 'cancel'"/>
+                <field name="failure_type"/>
+                <field name="sent_datetime"/>
+                <field name="open_datetime"/>
+                <field name="clicked_datetime"/>
+                <field name="replied_datetime"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_mail_trace_report_pivot" model="ir.ui.view">
+        <field name="name">amr.mail.trace.report.pivot</field>
+        <field name="model">amr.mail.trace.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Delivery Details" disable_linking="True">
+                <field name="trace_status" type="row"/>
+                <field name="mailing_id" type="col"/>
+                <field name="trace_id" type="measure" string="Count"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_mail_trace_report_graph" model="ir.ui.view">
+        <field name="name">amr.mail.trace.report.graph</field>
+        <field name="model">amr.mail.trace.report</field>
+        <field name="arch" type="xml">
+            <graph string="Delivery Details" type="pie">
+                <field name="trace_status" type="row"/>
+                <field name="trace_id" type="measure" string="Count"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_mail_trace_report_search" model="ir.ui.view">
+        <field name="name">amr.mail.trace.report.search</field>
+        <field name="model">amr.mail.trace.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Delivery Details">
+                <field name="email"/>
+                <field name="mailing_id"/>
+                <filter string="Opened" name="opened" domain="[('trace_status','=','open')]"/>
+                <filter string="Clicked" name="clicked" domain="[('trace_status','=','click')]"/>
+                <filter string="Bounced" name="bounced" domain="[('trace_status','=','bounce')]"/>
+                <filter string="Replied" name="replied" domain="[('trace_status','=','reply')]"/>
+                <filter string="Failed" name="failed" domain="[('trace_status','=','error')]"/>
+                <filter string="Canceled" name="canceled" domain="[('trace_status','=','cancel')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'trace_status'}"/>
+                    <filter string="Mailing" name="group_mailing" context="{'group_by': 'mailing_id'}"/>
+                    <filter string="Failure Type" name="group_failure" context="{'group_by': 'failure_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_mail_trace_report" model="ir.actions.act_window">
+        <field name="name">Delivery Details</field>
+        <field name="res_model">amr.mail.trace.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+        <field name="context">{}</field>
+    </record>
+
+</odoo>
