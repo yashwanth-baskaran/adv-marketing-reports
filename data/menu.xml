@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem
+        id="menu_amr_root"
+        name="Marketing Reports"
+        parent="mass_mailing.mass_mailing_menu_root"
+        sequence="100"/>
+
+    <!-- Email Marketing sub-menu -->
+    <menuitem
+        id="menu_amr_email"
+        name="Email Marketing"
+        parent="menu_amr_root"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_amr_mailing_report"
+        name="Campaign Stats"
+        parent="menu_amr_email"
+        action="action_amr_mailing_report"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_amr_mail_trace_report"
+        name="Delivery Details"
+        parent="menu_amr_email"
+        action="action_amr_mail_trace_report"
+        sequence="20"/>
+
+    <!-- Marketing Automation sub-menu -->
+    <menuitem
+        id="menu_amr_automation"
+        name="Marketing Automation"
+        parent="menu_amr_root"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_amr_campaign_report"
+        name="Campaign Overview"
+        parent="menu_amr_automation"
+        action="action_amr_campaign_report"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_amr_activity_report"
+        name="Activity Stats"
+        parent="menu_amr_automation"
+        action="action_amr_activity_report"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_amr_participant_report"
+        name="Participant Breakdown"
+        parent="menu_amr_automation"
+        action="action_amr_participant_report"
+        sequence="30"/>
+
+    <!-- Insights sub-menu -->
+    <menuitem
+        id="menu_amr_insights"
+        name="Insights"
+        parent="menu_amr_root"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_amr_monthly_trend"
+        name="Monthly Trend"
+        parent="menu_amr_insights"
+        action="action_amr_monthly_trend"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_amr_campaign_ranking"
+        name="Campaign Ranking"
+        parent="menu_amr_insights"
+        action="action_amr_campaign_ranking"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_amr_bounce_report"
+        name="Bounce &amp; Failure Breakdown"
+        parent="menu_amr_insights"
+        action="action_amr_bounce_report"
+        sequence="30"/>
+
+    <menuitem
+        id="menu_amr_sendtime_report"
+        name="Send Time Analysis"
+        parent="menu_amr_insights"
+        action="action_amr_sendtime_report"
+        sequence="40"/>
+
+    <menuitem
+        id="menu_amr_subject_report"
+        name="Subject Line Patterns"
+        parent="menu_amr_insights"
+        action="action_amr_subject_report"
+        sequence="50"/>
+
+    <menuitem
+        id="menu_amr_ab_report"
+        name="A/B Test Results"
+        parent="menu_amr_insights"
+        action="action_amr_ab_report"
+        sequence="60"/>
+
+    <menuitem
+        id="menu_amr_trigger_report"
+        name="Trigger Effectiveness"
+        parent="menu_amr_insights"
+        action="action_amr_trigger_report"
+        sequence="70"/>
+
+    <!-- Intelligence sub-menu -->
+    <menuitem
+        id="menu_amr_intelligence"
+        name="Intelligence"
+        parent="menu_amr_root"
+        sequence="40"/>
+
+    <menuitem
+        id="menu_amr_contact_engagement"
+        name="Contact Engagement Scoring"
+        parent="menu_amr_intelligence"
+        action="action_amr_contact_engagement"
+        sequence="10"/>
+
+    <menuitem
+        id="menu_amr_list_health"
+        name="Mailing List Health"
+        parent="menu_amr_intelligence"
+        action="action_amr_list_health"
+        sequence="20"/>
+
+    <menuitem
+        id="menu_amr_reengagement"
+        name="Re-engagement Opportunities"
+        parent="menu_amr_intelligence"
+        action="action_amr_reengagement"
+        sequence="30"/>
+
+</odoo>
