@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_amr_mailing_report,access_amr_mailing_report,model_amr_mailing_report,base.group_user,1,0,0,0
+access_amr_mail_trace_report,access_amr_mail_trace_report,model_amr_mail_trace_report,base.group_user,1,0,0,0
+access_amr_campaign_report,access_amr_campaign_report,model_amr_campaign_report,base.group_user,1,0,0,0
+access_amr_activity_report,access_amr_activity_report,model_amr_activity_report,base.group_user,1,0,0,0
+access_amr_participant_report,access_amr_participant_report,model_amr_participant_report,base.group_user,1,0,0,0
+access_amr_monthly_trend_report,access_amr_monthly_trend_report,model_amr_monthly_trend_report,base.group_user,1,0,0,0
+access_amr_campaign_ranking_report,access_amr_campaign_ranking_report,model_amr_campaign_ranking_report,base.group_user,1,0,0,0
+access_amr_bounce_report,access_amr_bounce_report,model_amr_bounce_report,base.group_user,1,0,0,0
+access_amr_sendtime_report,access_amr_sendtime_report,model_amr_sendtime_report,base.group_user,1,0,0,0
+access_amr_subject_report,access_amr_subject_report,model_amr_subject_report,base.group_user,1,0,0,0
+access_amr_ab_report,access_amr_ab_report,model_amr_ab_report,base.group_user,1,0,0,0
+access_amr_trigger_report,access_amr_trigger_report,model_amr_trigger_report,base.group_user,1,0,0,0
+access_amr_contact_engagement,access_amr_contact_engagement,model_amr_contact_engagement,base.group_user,1,0,0,0
+access_amr_list_health_report,access_amr_list_health_report,model_amr_list_health_report,base.group_user,1,0,0,0
+access_amr_reengagement_report,access_amr_reengagement_report,model_amr_reengagement_report,base.group_user,1,0,0,0
