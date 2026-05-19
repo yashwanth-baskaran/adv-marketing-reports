@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_amr_monthly_trend_list" model="ir.ui.view">
+        <field name="name">amr.monthly.trend.report.list</field>
+        <field name="model">amr.monthly.trend.report</field>
+        <field name="arch" type="xml">
+            <list string="Monthly Trend" create="false" edit="false" delete="false">
+                <field name="month_label"/>
+                <field name="campaigns_sent"/>
+                <field name="total_sent"/>
+                <field name="total_delivered"/>
+                <field name="total_opened"/>
+                <field name="total_clicked"/>
+                <field name="total_bounced"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="delivery_rate" string="Delivery %"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_monthly_trend_pivot" model="ir.ui.view">
+        <field name="name">amr.monthly.trend.report.pivot</field>
+        <field name="model">amr.monthly.trend.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Monthly Trend" disable_linking="True">
+                <field name="year" type="col"/>
+                <field name="month_label" type="row"/>
+                <field name="total_sent" type="measure"/>
+                <field name="total_opened" type="measure"/>
+                <field name="total_clicked" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="delivery_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_monthly_trend_graph" model="ir.ui.view">
+        <field name="name">amr.monthly.trend.report.graph</field>
+        <field name="model">amr.monthly.trend.report</field>
+        <field name="arch" type="xml">
+            <graph string="Monthly Trend" type="line">
+                <field name="month_label" type="row"/>
+                <field name="total_sent" type="measure"/>
+                <field name="total_opened" type="measure"/>
+                <field name="open_rate" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_monthly_trend_search" model="ir.ui.view">
+        <field name="name">amr.monthly.trend.report.search</field>
+        <field name="model">amr.monthly.trend.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Monthly Trend">
+                <field name="month_label"/>
+                <group expand="0" string="Group By">
+                    <filter string="Year" name="group_year" context="{'group_by': 'year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_monthly_trend" model="ir.actions.act_window">
+        <field name="name">Monthly Trend</field>
+        <field name="res_model">amr.monthly.trend.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <record id="view_amr_campaign_ranking_list" model="ir.ui.view">
+        <field name="name">amr.campaign.ranking.report.list</field>
+        <field name="model">amr.campaign.ranking.report</field>
+        <field name="arch" type="xml">
+            <list string="Campaign Ranking" create="false" edit="false" delete="false">
+                <field name="rank"/>
+                <field name="subject"/>
+                <field name="engagement_score"/>
+                <field name="performance_tier"
+                       decoration-success="performance_tier == 'Top Performer'"
+                       decoration-warning="performance_tier == 'Average'"
+                       decoration-danger="performance_tier == 'Needs Attention'"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="delivery_rate" string="Delivery %"/>
+                <field name="reply_rate" string="Reply %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="sent_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_campaign_ranking_pivot" model="ir.ui.view">
+        <field name="name">amr.campaign.ranking.report.pivot</field>
+        <field name="model">amr.campaign.ranking.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Campaign Ranking" disable_linking="True">
+                <field name="performance_tier" type="row"/>
+                <field name="engagement_score" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="delivery_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_campaign_ranking_search" model="ir.ui.view">
+        <field name="name">amr.campaign.ranking.report.search</field>
+        <field name="model">amr.campaign.ranking.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Campaign Ranking">
+                <field name="subject"/>
+                <filter string="Top Performers" name="top" domain="[('performance_tier','=','Top Performer')]"/>
+                <filter string="Average" name="avg" domain="[('performance_tier','=','Average')]"/>
+                <filter string="Needs Attention" name="poor" domain="[('performance_tier','=','Needs Attention')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Performance Tier" name="group_tier" context="{'group_by': 'performance_tier'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_campaign_ranking" model="ir.actions.act_window">
+        <field name="name">Campaign Ranking</field>
+        <field name="res_model">amr.campaign.ranking.report</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <record id="view_amr_bounce_report_list" model="ir.ui.view">
+        <field name="name">amr.bounce.report.list</field>
+        <field name="model">amr.bounce.report</field>
+        <field name="arch" type="xml">
+            <list string="Bounce &amp; Failure Breakdown" create="false" edit="false" delete="false">
+                <field name="failure_type"/>
+                <field name="month_label"/>
+                <field name="failure_count"/>
+                <field name="pct_of_total" string="% of Total"/>
+                <field name="affected_campaigns"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_bounce_report_pivot" model="ir.ui.view">
+        <field name="name">amr.bounce.report.pivot</field>
+        <field name="model">amr.bounce.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Bounce &amp; Failure Breakdown" disable_linking="True">
+                <field name="failure_type" type="row"/>
+                <field name="year" type="col"/>
+                <field name="failure_count" type="measure"/>
+                <field name="affected_campaigns" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_bounce_report_graph" model="ir.ui.view">
+        <field name="name">amr.bounce.report.graph</field>
+        <field name="model">amr.bounce.report</field>
+        <field name="arch" type="xml">
+            <graph string="Bounce &amp; Failure Breakdown" type="pie">
+                <field name="failure_type" type="row"/>
+                <field name="failure_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_bounce_report_search" model="ir.ui.view">
+        <field name="name">amr.bounce.report.search</field>
+        <field name="model">amr.bounce.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Bounce Breakdown">
+                <field name="failure_type"/>
+                <field name="month_label"/>
+                <group expand="0" string="Group By">
+                    <filter string="Failure Type" name="group_failure" context="{'group_by': 'failure_type'}"/>
+                    <filter string="Month" name="group_month" context="{'group_by': 'month_label'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_bounce_report" model="ir.actions.act_window">
+        <field name="name">Bounce &amp; Failure Breakdown</field>
+        <field name="res_model">amr.bounce.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <record id="view_amr_sendtime_report_list" model="ir.ui.view">
+        <field name="name">amr.sendtime.report.list</field>
+        <field name="model">amr.sendtime.report</field>
+        <field name="arch" type="xml">
+            <list string="Send Time Analysis" create="false" edit="false" delete="false">
+                <field name="slot_type"/>
+                <field name="slot_label"/>
+                <field name="campaigns_sent"/>
+                <field name="avg_open_rate" string="Avg Open %"/>
+                <field name="avg_click_rate" string="Avg Click %"/>
+                <field name="performance_label"
+                       decoration-success="performance_label == 'Best'"
+                       decoration-danger="performance_label == 'Worst'"
+                       decoration-muted="performance_label == 'Average'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_sendtime_report_pivot" model="ir.ui.view">
+        <field name="name">amr.sendtime.report.pivot</field>
+        <field name="model">amr.sendtime.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Send Time Analysis" disable_linking="True">
+                <field name="slot_type" type="col"/>
+                <field name="slot_label" type="row"/>
+                <field name="campaigns_sent" type="measure"/>
+                <field name="avg_open_rate" type="measure"/>
+                <field name="avg_click_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_sendtime_report_search" model="ir.ui.view">
+        <field name="name">amr.sendtime.report.search</field>
+        <field name="model">amr.sendtime.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Send Time Analysis">
+                <filter string="By Hour" name="by_hour" domain="[('slot_type','=','hour')]"/>
+                <filter string="By Day" name="by_day" domain="[('slot_type','=','day')]"/>
+                <filter string="Best Slots" name="best" domain="[('performance_label','=','Best')]"/>
+                <filter string="Worst Slots" name="worst" domain="[('performance_label','=','Worst')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Slot Type" name="group_type" context="{'group_by': 'slot_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_sendtime_report" model="ir.actions.act_window">
+        <field name="name">Send Time Analysis</field>
+        <field name="res_model">amr.sendtime.report</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <record id="view_amr_subject_report_list" model="ir.ui.view">
+        <field name="name">amr.subject.report.list</field>
+        <field name="model">amr.subject.report</field>
+        <field name="arch" type="xml">
+            <list string="Subject Line Patterns" create="false" edit="false" delete="false">
+                <field name="subject"/>
+                <field name="subject_length"/>
+                <field name="sent"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="sent_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_subject_report_pivot" model="ir.ui.view">
+        <field name="name">amr.subject.report.pivot</field>
+        <field name="model">amr.subject.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Subject Line Patterns" disable_linking="True">
+                <field name="subject" type="row"/>
+                <field name="sent" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="click_rate" type="measure"/>
+                <field name="subject_length" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_subject_report_search" model="ir.ui.view">
+        <field name="name">amr.subject.report.search</field>
+        <field name="model">amr.subject.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Subject Patterns">
+                <field name="subject"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_subject_report" model="ir.actions.act_window">
+        <field name="name">Subject Line Patterns</field>
+        <field name="res_model">amr.subject.report</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <record id="view_amr_ab_report_list" model="ir.ui.view">
+        <field name="name">amr.ab.report.list</field>
+        <field name="model">amr.ab.report</field>
+        <field name="arch" type="xml">
+            <list string="A/B Test Results" create="false" edit="false" delete="false">
+                <field name="subject"/>
+                <field name="ab_testing_pc" string="A/B Test %"/>
+                <field name="ab_testing_winner_selection" string="Winner Selection"/>
+                <field name="ab_testing_completed" string="Completed"
+                       decoration-success="ab_testing_completed == True"
+                       decoration-warning="ab_testing_completed == False"/>
+                <field name="sent"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="bounce_rate" string="Bounce %"/>
+                <field name="sent_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_ab_report_pivot" model="ir.ui.view">
+        <field name="name">amr.ab.report.pivot</field>
+        <field name="model">amr.ab.report</field>
+        <field name="arch" type="xml">
+            <pivot string="A/B Test Results" disable_linking="True">
+                <field name="ab_testing_winner_selection" type="row"/>
+                <field name="ab_testing_completed" type="col"/>
+                <field name="sent" type="measure"/>
+                <field name="open_rate" type="measure"/>
+                <field name="click_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_ab_report_search" model="ir.ui.view">
+        <field name="name">amr.ab.report.search</field>
+        <field name="model">amr.ab.report</field>
+        <field name="arch" type="xml">
+            <search string="Search A/B Tests">
+                <field name="subject"/>
+                <filter string="Completed" name="completed" domain="[('ab_testing_completed','=',True)]"/>
+                <filter string="In Progress" name="in_progress" domain="[('ab_testing_completed','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Winner Selection" name="group_winner" context="{'group_by': 'ab_testing_winner_selection'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_ab_report" model="ir.actions.act_window">
+        <field name="name">A/B Test Results</field>
+        <field name="res_model">amr.ab.report</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <record id="view_amr_trigger_report_list" model="ir.ui.view">
+        <field name="name">amr.trigger.report.list</field>
+        <field name="model">amr.trigger.report</field>
+        <field name="arch" type="xml">
+            <list string="Trigger Effectiveness" create="false" edit="false" delete="false">
+                <field name="trigger_type"/>
+                <field name="activities_count"/>
+                <field name="total_sent"/>
+                <field name="avg_open_rate" string="Avg Open %"/>
+                <field name="avg_click_rate" string="Avg Click %"/>
+                <field name="avg_bounce_rate" string="Avg Bounce %"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_trigger_report_pivot" model="ir.ui.view">
+        <field name="name">amr.trigger.report.pivot</field>
+        <field name="model">amr.trigger.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Trigger Effectiveness" disable_linking="True">
+                <field name="trigger_type" type="row"/>
+                <field name="activities_count" type="measure"/>
+                <field name="total_sent" type="measure"/>
+                <field name="avg_open_rate" type="measure"/>
+                <field name="avg_click_rate" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_trigger_report_graph" model="ir.ui.view">
+        <field name="name">amr.trigger.report.graph</field>
+        <field name="model">amr.trigger.report</field>
+        <field name="arch" type="xml">
+            <graph string="Trigger Effectiveness" type="bar">
+                <field name="trigger_type" type="row"/>
+                <field name="avg_open_rate" type="measure"/>
+                <field name="avg_click_rate" type="measure"/>
+                <field name="avg_bounce_rate" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_trigger_report_search" model="ir.ui.view">
+        <field name="name">amr.trigger.report.search</field>
+        <field name="model">amr.trigger.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Trigger Effectiveness">
+                <field name="trigger_type"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_trigger_report" model="ir.actions.act_window">
+        <field name="name">Trigger Effectiveness</field>
+        <field name="res_model">amr.trigger.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <record id="view_amr_contact_engagement_list" model="ir.ui.view">
+        <field name="name">amr.contact.engagement.list</field>
+        <field name="model">amr.contact.engagement</field>
+        <field name="arch" type="xml">
+            <list string="Contact Engagement Scoring" create="false" edit="false" delete="false">
+                <field name="email"/>
+                <field name="total_received"/>
+                <field name="total_opened"/>
+                <field name="total_clicked"/>
+                <field name="total_bounced"/>
+                <field name="open_rate" string="Open %"/>
+                <field name="click_rate" string="Click %"/>
+                <field name="engagement_score"/>
+                <field name="engagement_tier"
+                       decoration-success="engagement_tier == 'Highly Engaged'"
+                       decoration-warning="engagement_tier == 'Moderate'"
+                       decoration-danger="engagement_tier == 'Cold'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_contact_engagement_pivot" model="ir.ui.view">
+        <field name="name">amr.contact.engagement.pivot</field>
+        <field name="model">amr.contact.engagement</field>
+        <field name="arch" type="xml">
+            <pivot string="Contact Engagement Scoring" disable_linking="True">
+                <field name="engagement_tier" type="row"/>
+                <field name="total_received" type="measure"/>
+                <field name="total_opened" type="measure"/>
+                <field name="engagement_score" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_contact_engagement_search" model="ir.ui.view">
+        <field name="name">amr.contact.engagement.search</field>
+        <field name="model">amr.contact.engagement</field>
+        <field name="arch" type="xml">
+            <search string="Search Contact Engagement">
+                <field name="email"/>
+                <filter string="Highly Engaged" name="highly_engaged" domain="[('engagement_tier','=','Highly Engaged')]"/>
+                <filter string="Moderate" name="moderate" domain="[('engagement_tier','=','Moderate')]"/>
+                <filter string="Cold" name="cold" domain="[('engagement_tier','=','Cold')]"/>
+                <filter string="Bounced" name="bounced" domain="[('total_bounced','>',0)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Tier" name="group_tier" context="{'group_by': 'engagement_tier'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_contact_engagement" model="ir.actions.act_window">
+        <field name="name">Contact Engagement Scoring</field>
+        <field name="res_model">amr.contact.engagement</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <record id="view_amr_list_health_list" model="ir.ui.view">
+        <field name="name">amr.list.health.report.list</field>
+        <field name="model">amr.list.health.report</field>
+        <field name="arch" type="xml">
+            <list string="Mailing List Health" create="false" edit="false" delete="false">
+                <field name="list_name"/>
+                <field name="total_contacts"/>
+                <field name="active_contacts"/>
+                <field name="opted_out"/>
+                <field name="bounced_ever"/>
+                <field name="active_pct" string="Active %"/>
+                <field name="health_score"/>
+                <field name="health_badge"
+                       decoration-success="health_badge == 'Healthy'"
+                       decoration-warning="health_badge == 'Average'"
+                       decoration-danger="health_badge == 'Needs Cleaning'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_list_health_pivot" model="ir.ui.view">
+        <field name="name">amr.list.health.report.pivot</field>
+        <field name="model">amr.list.health.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Mailing List Health" disable_linking="True">
+                <field name="health_badge" type="row"/>
+                <field name="total_contacts" type="measure"/>
+                <field name="active_contacts" type="measure"/>
+                <field name="bounced_ever" type="measure"/>
+                <field name="health_score" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_list_health_graph" model="ir.ui.view">
+        <field name="name">amr.list.health.report.graph</field>
+        <field name="model">amr.list.health.report</field>
+        <field name="arch" type="xml">
+            <graph string="Mailing List Health" type="bar">
+                <field name="list_name" type="row"/>
+                <field name="active_contacts" type="measure"/>
+                <field name="opted_out" type="measure"/>
+                <field name="bounced_ever" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_amr_list_health_search" model="ir.ui.view">
+        <field name="name">amr.list.health.report.search</field>
+        <field name="model">amr.list.health.report</field>
+        <field name="arch" type="xml">
+            <search string="Search List Health">
+                <field name="list_name"/>
+                <filter string="Healthy" name="healthy" domain="[('health_badge','=','Healthy')]"/>
+                <filter string="Average" name="average" domain="[('health_badge','=','Average')]"/>
+                <filter string="Needs Cleaning" name="needs_cleaning" domain="[('health_badge','=','Needs Cleaning')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Health Badge" name="group_badge" context="{'group_by': 'health_badge'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_list_health" model="ir.actions.act_window">
+        <field name="name">Mailing List Health</field>
+        <field name="res_model">amr.list.health.report</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <record id="view_amr_reengagement_list" model="ir.ui.view">
+        <field name="name">amr.reengagement.report.list</field>
+        <field name="model">amr.reengagement.report</field>
+        <field name="arch" type="xml">
+            <list string="Re-engagement Opportunities" create="false" edit="false" delete="false">
+                <field name="email"/>
+                <field name="last_opened"/>
+                <field name="days_since_last_open"/>
+                <field name="campaigns_since_last_open"/>
+                <field name="reengagement_status"
+                       decoration-warning="reengagement_status == 'At Risk'"
+                       decoration-danger="reengagement_status == 'Dormant'"
+                       decoration-muted="reengagement_status == 'Lost'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_amr_reengagement_pivot" model="ir.ui.view">
+        <field name="name">amr.reengagement.report.pivot</field>
+        <field name="model">amr.reengagement.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Re-engagement Opportunities" disable_linking="True">
+                <field name="reengagement_status" type="row"/>
+                <field name="days_since_last_open" type="measure"/>
+                <field name="campaigns_since_last_open" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_amr_reengagement_search" model="ir.ui.view">
+        <field name="name">amr.reengagement.report.search</field>
+        <field name="model">amr.reengagement.report</field>
+        <field name="arch" type="xml">
+            <search string="Search Re-engagement">
+                <field name="email"/>
+                <filter string="At Risk (30-60 days)" name="at_risk" domain="[('reengagement_status','=','At Risk')]"/>
+                <filter string="Dormant (60-90 days)" name="dormant" domain="[('reengagement_status','=','Dormant')]"/>
+                <filter string="Lost (90+ days)" name="lost" domain="[('reengagement_status','=','Lost')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'reengagement_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_amr_reengagement" model="ir.actions.act_window">
+        <field name="name">Re-engagement Opportunities</field>
+        <field name="res_model">amr.reengagement.report</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+</odoo>
